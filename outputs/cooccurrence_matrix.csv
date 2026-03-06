@@ -1,0 +1,12 @@
+,assis,chat,chien,coussin,dormi,fui,lapin,poursuivi,repose,souris,tapis
+assis,0,1,1,1,0,0,0,0,0,0,1
+chat,1,0,0,0,1,1,0,1,0,2,2
+chien,1,0,0,2,1,2,2,1,0,1,0
+coussin,1,0,2,0,1,0,0,0,1,0,1
+dormi,0,1,1,1,0,0,0,0,0,0,1
+fui,0,1,2,0,0,0,1,0,0,2,0
+lapin,0,0,2,0,0,1,0,1,0,0,0
+poursuivi,0,1,1,0,0,0,1,0,0,1,0
+repose,0,0,0,1,0,0,0,0,0,0,1
+souris,0,2,1,0,0,2,0,1,0,0,0
+tapis,1,2,0,1,1,0,0,0,1,0,0

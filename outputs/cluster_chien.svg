@@ -1,0 +1,17 @@
+<svg viewBox="0 0 260 290" xmlns="http://www.w3.org/2000/svg">
+<defs>
+<marker id="tri-cccc" markerWidth="8" markerHeight="8" refX="8" refY="4" orient="auto"><path d="M0,0 L8,4 L0,8 Z" fill="#ccc"/></marker>
+<marker id="tri-c286c44" markerWidth="8" markerHeight="8" refX="8" refY="4" orient="auto"><path d="M0,0 L8,4 L0,8 Z" fill="#286c44"/></marker>
+<marker id="tri-c111" markerWidth="8" markerHeight="8" refX="8" refY="4" orient="auto"><path d="M0,0 L8,4 L0,8 Z" fill="#111"/></marker>
+</defs>
+<circle cx="130.0" cy="130.0" r="85" fill="none" stroke="#ccc" stroke-width="0.8" stroke-dasharray="3,3"/>
+<line x1="130.0" y1="130.0" x2="201.9" y2="103.8" stroke="#286c44" stroke-width="2" marker-end="url(#tri-c286c44)"/>
+<text x="223.0" y="100.1" text-anchor="start" fill="#286c44" font-size="12" font-weight="600" font-family="serif">chien</text>
+<line x1="130.0" y1="130.0" x2="192.7" y2="86.1" stroke="#111" stroke-width="2" marker-end="url(#tri-c111)"/>
+<text x="211.1" y="77.2" text-anchor="start" fill="#111" font-size="12" font-weight="600" font-family="serif">dormi</text>
+<line x1="130.0" y1="130.0" x2="179.2" y2="71.4" stroke="#111" stroke-width="2" marker-end="url(#tri-c111)"/>
+<text x="193.6" y="58.2" text-anchor="start" fill="#111" font-size="12" font-weight="600" font-family="serif">poursuivi</text>
+<line x1="130.0" y1="130.0" x2="162.3" y2="60.7" stroke="#ccc" stroke-width="2" marker-end="url(#tri-cccc)"/>
+<text x="171.8" y="44.3" text-anchor="start" fill="#ccc" font-size="12" font-weight="600" font-family="serif">chat</text>
+<text x="130.0" y="282" text-anchor="middle" fill="#777" font-size="9.5" font-family="serif">chien aussi — mêmes verbes</text>
+</svg>

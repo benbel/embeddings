@@ -1,0 +1,543 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Plongement lexical</title>
+
+<!-- KaTeX -->
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.css">
+<script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.js"></script>
+<script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/contrib/auto-render.min.js"
+  onload="renderMathInElement(document.body, {delimiters:[{left:'$$',right:'$$',display:true},{left:'$',right:'$',display:false}]});"></script>
+
+<style>
+*{box-sizing:border-box;margin:0;padding:0}
+
+html{font-size:15px}
+
+body{
+  margin: 0;
+  padding: 3rem 2rem;
+  min-height: 100vh;
+  line-height: 1.75;
+  background-color: #fcfcfc;
+  color: #111111;
+  font-family: monospace;
+}
+
+/* Tufte-style layout: main column + sidenote gutter */
+article{
+  max-width:680px;
+  margin:0 auto;
+  position:relative;
+}
+
+@media(min-width:1080px){
+  article{
+    max-width:680px;
+    margin-left:calc(50% - 340px - 120px);
+  }
+}
+
+h1{
+  font-size:inherit;
+  font-weight:normal;
+  font-style:italic;
+  color:#111;
+  line-height:1.75;
+  margin-bottom:1.5rem;
+}
+
+h2{
+  font-size:inherit;
+  font-weight:normal;
+  font-style:italic;
+  color:#111;
+  line-height:1.75;
+  margin-top:2.5rem;
+  margin-bottom:1rem;
+}
+
+p{margin-bottom:1rem;max-width:38em}
+em{font-style:italic}
+strong{font-style:italic;font-weight:normal}
+
+a{color:#111;text-decoration:none;border-bottom:1px solid rgba(0,0,0,0.2)}
+a:hover{border-bottom-color:#111}
+
+/* Sidenotes (Tufte-style) */
+.sidenote{
+  float:right;
+  clear:right;
+  margin-right:-240px;
+  width:210px;
+  font-size:0.75rem;
+  line-height:1.5;
+  color:#777;
+  position:relative;
+}
+.sidenote-number{
+  font-size:0.75rem;
+  vertical-align:super;
+  color:#777;
+  cursor:pointer;
+}
+.sidenote::before{
+  content:attr(data-n);
+  font-size:0.75rem;
+  vertical-align:super;
+  color:#777;
+  margin-right:0.3em;
+}
+
+@media(max-width:1079px){
+  .sidenote{
+    float:none;
+    margin:0.5rem 0 0.5rem 1.5rem;
+    width:auto;
+    max-width:90%;
+    font-size:0.75rem;
+    padding:0.3rem 0;
+    border-left:2px solid #e0e0e0;
+    padding-left:0.8rem;
+  }
+}
+
+/* Code / corpus display */
+.cb{
+  background:#fcfcfc;
+  border:1px solid #777;
+  border-radius:4px;
+  padding:0.8rem 1rem;
+  margin:1rem 0 1.5rem;
+  max-width: 350px;
+  display:flex;flex-direction:column;gap:0.15rem;
+}
+.cb code.s{font-size:1rem;line-height:1.7;display:block;font-family:monospace}
+
+/* Math blocks */
+.mb{
+  margin:1.2rem 0;
+  text-align:center;
+  overflow-x:auto;
+}
+/* SVG wrappers */
+
+.sv-wrap{margin:1.8rem  0;display:flex;flex-direction:column;align-items:center}
+.sv-wrap img,.sv-wrap object,.sv-wrap svg{width:100%;height:auto}
+.dot-wrap{max-width:540px}
+.cooc-wrap{max-width:560px}
+.cluster-row{display:flex;gap:0.4rem;flex-wrap:wrap;justify-content:center;margin:1.8rem 0}
+.cluster-row .cluster-item{width:280px}
+.cluster-row .cluster-item img{width:100%}
+.train-wrap{max-width:500px}
+.corpus-train-wrap{max-width:620px}
+.pca-wrap{max-width:620px}
+
+/* Tables */
+table.st{border-collapse:collapse;margin:1.2rem 0;font-size:1rem;width:auto}
+.st th{color:#777;font-style:italic;font-weight:normal;font-size:0.75rem;letter-spacing:0.08em;padding:0.35rem 0.9rem;text-align:left;border-bottom:1px solid #ddd;font-family:monospace}
+.st td{padding:0.3rem 0.9rem;border-bottom:1px solid #f0f0f0}
+.st .sv{color:#111;font-variant-numeric:tabular-nums}
+.bar{display:inline-block;height:8px;border-radius:2px;opacity:0.35;vertical-align:middle}
+
+/* Details (for corpus) */
+details{margin:1rem 0}
+details summary{
+  cursor:pointer;
+  font-size:1rem;
+  color:#777;
+  font-style:italic;
+}
+details summary:hover{text-decoration:underline}
+details .corpus-text{
+  max-height:400px;
+  overflow-y:auto;
+  padding:0.8rem 1rem;
+  background:#f7f7f5;
+  border:1px solid #e0e0e0;
+  border-radius:4px;
+  font-size:0.75rem;
+  line-height:1.6;
+  color:#777;
+  margin-top:0.5rem;
+  white-space:pre-wrap;
+}
+
+/* Analogy display */
+.analogy{
+  margin:0.8rem 0;
+  padding:0.6rem 1rem;
+  background:#f7f7f5;
+  border-radius:4px;
+}
+.analogy .eq{color:#777;font-style:italic}
+.analogy .res{color:#777;font-size:0.75rem;margin-top:0.2rem}
+
+/* Similarity list */
+.sim-list{
+  display:flex;flex-wrap:wrap;gap:1.5rem;margin:1rem 0;
+}
+.sim-item{
+  flex:1;min-width:200px;max-width:300px;
+}
+.sim-item h4{font-size:1rem;font-style:italic;font-weight:normal;color:#111;margin-bottom:0.3rem}
+.sim-item ol{
+  list-style:decimal;
+  padding-left:1.2em;
+  font-size:1rem;
+  color:#777;
+  line-height:1.7;
+}
+.sim-item .score{color:#ccc;font-size:0.75rem}
+
+/* Replay button for animations */
+.replay-btn{
+  display:inline-block;
+  margin-top:0.5rem;
+  padding:0.3rem 0.8rem;
+  font-size:0.75rem;
+  font-family:monospace;
+  color:#777;
+  background:#f7f7f5;
+  border:1px solid #ddd;
+  border-radius:3px;
+  cursor:pointer;
+}
+.replay-btn:hover{background:#eee}
+
+@media(min-width:800px){
+  body{padding:4rem 2rem 8rem}
+}
+
+
+</style>
+</head>
+<body>
+<article>
+
+<h1>Word embedding / plongement lexical</h1>
+
+<span class="sidenote" data-n="1">Pour reprendre <a href="https://www.college-de-france.fr/fr/editions/lecons-inaugurales/apprendre-les-langues-aux-machines-9782722606463">l'expression de Beno&icirc;t Sagot</a>.</span>
+<span class="sidenote"><div class="sv-wrap" style="width:auto; max-width:150px">
+  <img src="outputs/vector_example.svg" alt="Repr&eacute;sentation du vecteur [0,2 &minus;3,5] de &laquo;&nbsp;chat&nbsp;&raquo;">
+</div>
+</span>
+
+<p>
+Pour apprendre les langues aux machines<span class="sidenote-number">1</span>, on peut repr&eacute;senter les mots comme des objets que les ordinateurs savent bien manipuler : des nombres. </p>
+
+<p>
+Si l'on pouvait associer chaque mot &agrave; un nombre (par exemple chat $\Leftrightarrow$ 7,5), ou &agrave; une liste de nombres (un vecteur&nbsp;: chat $\Leftrightarrow$ [1,2&thinsp;&minus;3,5]), on pourrait alors <em>calculer</em> avec des mots : mesurer des distances entre deux mots, faire la moyenne de deux mots, ou bien s&ucirc;r d&eacute;velopper des mod&egrave;les statistiques pour pr&eacute;dire le prochain mot, comme le font les LLM. Toute l'alg&egrave;bre lin&eacute;aire et les statistiques deviendraient applicables au langage.
+</p>
+
+<p>
+Pour que cela fonctionne bien, il faudrait que deux mots dont le sens est similaire (par exemple, &laquo;&nbsp;chien&nbsp;&raquo; et &laquo;&nbsp;chat&nbsp;&raquo;) devraient &ecirc;tre repr&eacute;sent&eacute;s par des vecteurs similaires.
+</p>
+
+<h2>Comment mesurer la ressemblance de deux vecteurs ?</h2>
+
+<p>
+On peut utiliser la similarit&eacute; cosinus ou le produit scalaire entre deux vecteurs. Pour deux vecteurs $\mathbf{a}$ et $\mathbf{b}$, leur produit scalaire vaut $\mathbf{a} \cdot \mathbf{b} = \cos(\theta) \; \|\mathbf{a}\| \; \|\mathbf{b}\|$ o&ugrave; $\theta$ est l'angle entre eux, $\|\mathbf{a}\|$ et $\|\mathbf{b}\|$ la longueur de chaque vecteur, et la similarit&eacute; cosinus est simplement $\cos(\theta)$.
+</p>
+
+<div class="sv-wrap dot-wrap">
+  <img src="outputs/dot_similarity.svg" alt="Produit scalaire : similaire, orthogonal, oppos&eacute;">
+</div>
+
+<p>
+Si deux vecteurs ont la m&ecirc;me direction, leur similarit&eacute; cosinus sera de 1 ; s'ils ont une direction oppos&eacute;e, &minus;1 ; et s'ils sont orthogonaux (perpendiculaires), 0.
+</p>
+
+<p>
+Si les vecteurs sont bien choisis pour qu'ils repr&eacute;sentent le <em>sens</em> des mots, le produit scalaire devient un test de synonymie : deux mots qui ont le m&ecirc;me sens auront des vecteurs associ&eacute;s qui ont un produit scalaire &eacute;lev&eacute;.
+</p>
+
+<h2>Comment choisir ces vecteurs ?</h2>
+
+<p>
+Les mots &laquo;&nbsp;chat&nbsp;&raquo; et &laquo;&nbsp;chien&nbsp;&raquo;, qui ont un sens proche (plus que &laquo;&nbsp;chat&nbsp;&raquo; et &laquo;&nbsp;anticonstitutionnel&nbsp;&raquo; ou &laquo;&nbsp;chat&nbsp;&raquo; et &laquo;&nbsp;marteler&nbsp;&raquo;, du moins), apparaissent souvent dans les m&ecirc;mes <em>contextes</em> : dans les livres, on trouvera souvent que tous deux ont dormi, tous deux ont poursuivi, tous deux sont assis, et ainsi de suite. Ici, avoir un sens proche et appara&icirc;tre dans les m&ecirc;mes contextes vont de pair : on peut faire l'hypoth&egrave;se que c'est toujours le cas<span class="sidenote-number">2</span>.
+</p>
+<span class="sidenote" data-n="2"><em>You shall know a word by the company it keeps.</em> &mdash; J.R. Firth, 1957</span>
+
+<p>
+Dans ce cas, on peut choisir les vecteurs tels que des mots qui partagent les m&ecirc;mes contextes obtiendront des vecteurs similaires.
+</p>
+
+<p>
+Prenons un petit corpus de phrases :
+</p>
+
+<div class="cb">
+<code class="s"><span style="color:#777">Le</span> <span style="color:#286c44">chat</span> <span style="color:#777">a</span> <span style="color:#777">dormi</span> <span style="color:#777">sur</span> <span style="color:#777">le</span> <span style="color:#777">tapis</span></code>
+<code class="s"><span style="color:#777">Le</span> <span style="color:#286c44">chien</span> <span style="color:#777">a</span> <span style="color:#777">dormi</span> <span style="color:#777">sur</span> <span style="color:#777">le</span> <span style="color:#777">coussin</span></code>
+<code class="s"><span style="color:#777">Un</span> <span style="color:#286c44">chat</span> <span style="color:#777">a</span> <span style="color:#777">poursuivi</span> <span style="color:#777">la</span> <span style="color:#777">souris</span></code>
+<code class="s"><span style="color:#777">Un</span> <span style="color:#286c44">chien</span> <span style="color:#777">a</span> <span style="color:#777">poursuivi</span> <span style="color:#777">le</span> <span style="color:#777">lapin</span></code>
+<code class="s"><span style="color:#777">Le</span> <span style="color:#286c44">chat</span> <span style="color:#777">est</span> <span style="color:#777">assis</span> <span style="color:#777">sur</span> <span style="color:#777">un</span> <span style="color:#777">tapis</span></code>
+<code class="s"><span style="color:#777">Le</span> <span style="color:#286c44">chien</span> <span style="color:#777">est</span> <span style="color:#777">assis</span> <span style="color:#777">sur</span> <span style="color:#777">un</span> <span style="color:#777">coussin</span></code>
+<code class="s"><span style="color:#777">La</span> <span style="color:#777">souris</span> <span style="color:#777">a</span> <span style="color:#777">fui</span> <span style="color:#777">devant</span> <span style="color:#777">le</span> <span style="color:#286c44">chat</span></code>
+<code class="s"><span style="color:#777">Le</span> <span style="color:#777">lapin</span> <span style="color:#777">a</span> <span style="color:#777">fui</span> <span style="color:#777">devant</span> <span style="color:#777">le</span> <span style="color:#286c44">chien</span></code>
+<code class="s"><span style="color:#777">Le</span> <span style="color:#777">coussin</span> <span style="color:#777">repose</span> <span style="color:#777">sur</span> <span style="color:#777">le</span> <span style="color:#777">tapis</span></code>
+<code class="s"><span style="color:#777">La</span> <span style="color:#777">souris</span> <span style="color:#777">a</span> <span style="color:#777">fui</span> <span style="color:#777">devant</span> <span style="color:#777">le</span> <span style="color:#286c44">chien</span></code>
+
+</div>
+
+<p>
+Les mots qui apparaissent dans le m&ecirc;me contexte<span class="sidenote-number">3</span> sont les suivants :
+</p>
+<span class="sidenote" data-n="3">ici, les deux mots pr&eacute;c&eacute;dant ou suivant le mot que l'on &eacute;tudie, une fois les mots de liaison comme "le" ou "un" enlevés.</span>
+
+<div class="sv-wrap cooc-wrap">
+  <img src="outputs/cooccurrence_matrix.svg" alt="Matrice de co-occurrence">
+</div>
+<span class="sidenote" data-n="4">Matrice de co-occurrence (fen&ecirc;tre = 2), mots de contenu uniquement. L'intensit&eacute; du vert est proportionnelle au comptage.</span>
+
+<p>
+On voit que &laquo;&nbsp;chat&nbsp;&raquo; appara&icirc;t souvent au m&ecirc;me endroit (&laquo;&nbsp;co-occurre&nbsp;&raquo;) que &laquo;&nbsp;dormi&nbsp;&raquo;, &laquo;&nbsp;poursuivi&nbsp;&raquo; et &laquo;&nbsp;assis&nbsp;&raquo;. On souhaite donc que le vecteur de &laquo;&nbsp;chat&nbsp;&raquo; soit proche des vecteurs de &laquo;&nbsp;dormi&nbsp;&raquo;, &laquo;&nbsp;poursuivi&nbsp;&raquo; et &laquo;&nbsp;assis&nbsp;&raquo;.
+</p>
+
+<p>
+De m&ecirc;me, &laquo;&nbsp;chien&nbsp;&raquo; co-occurre avec dormi, poursuivi, et assis. On souhaite donc que le vecteur de &laquo;&nbsp;chien&nbsp;&raquo; soit proche des vecteurs de &laquo;&nbsp;dormi&nbsp;&raquo;, &laquo;&nbsp;poursuivi&nbsp;&raquo; et &laquo;&nbsp;assis&nbsp;&raquo;.
+</p>
+
+<div class="cluster-row">
+  <div class="cluster-item"><img src="outputs/cluster_chat.svg" alt="Chat et ses verbes"></div>
+  <div class="cluster-item"><img src="outputs/cluster_chien.svg" alt="Chien et ses verbes"></div>
+</div>
+
+<p>
+Comme les vecteurs de &laquo;&nbsp;chien&nbsp;&raquo; et de &laquo;&nbsp;chat&nbsp;&raquo; sont tous les deux proches des vecteurs de &laquo;&nbsp;dormi&nbsp;&raquo;, &laquo;&nbsp;poursuivi&nbsp;&raquo; et &laquo;&nbsp;assis&nbsp;&raquo;, ils seront aussi proches l'un de l'autre, alors qu'ils ne co-occurent jamais dans les phrases de notre corpus.
+</p>
+
+<div class="cluster-row">
+  <div class="cluster-item"><img src="outputs/cluster_both.svg" alt="Chat et chien convergent"></div>
+</div>
+
+<p>
+Formellement, l'algorithme Word2Vec fonctionne de la mani&egrave;re suivante. On fait glisser une fen&ecirc;tre de taille 2 sur chaque phrase. Le mot central est la cible, les mots voisins forment le contexte. On cherche &agrave; ce que le produit scalaire entre le vecteur du contexte et le vecteur de la cible soit le plus &eacute;lev&eacute; (i.e. les deux vecteurs soient les plus proches), par rapport aux produits scalaires de la cible et de tous les autres mots du corpus :
+</p>
+
+<div class="mb">
+  $$P(w_{\text{ctx}} \mid w_{\text{cible}}) = \frac{\exp(\mathbf{v}'_{\text{ctx}} \cdot \mathbf{v}_{\text{cible}})}{\sum_{w} \exp(\mathbf{v}'_{w} \cdot \mathbf{v}_{\text{cible}})}$$
+</div>
+
+<p>
+En pratique, on commence par choisir un vecteur au hasard pour chacun des mots<span class="sidenote-number">5</span>. Puis, &eacute;tant donn&eacute; les valeurs actuelles de l'ensemble des vecteurs, on ajuste chacun d'entre eux pour augmenter la similarit&eacute; entre les vecteurs qui co-occurent, et on recommence. Progressivement, &agrave; partir des valeurs al&eacute;atoires initiales, les vecteurs migrent pour se rapprocher de leurs contextes.
+</p>
+<span class="sidenote" data-n="5">En r&eacute;alit&eacute;, on utilise des <em>tokens</em> : un d&eacute;coupage qui peut correspondre &agrave; un mot ou &agrave; une partie d'un mot.</span>
+
+<div class="sv-wrap train-wrap" id="toy-animation-wrap">
+  <img id="toy-animation" src="outputs/embedding_train_animation.svg" alt="Animation de l'entra&icirc;nement">
+  <button class="replay-btn" onclick="replayAnimation('toy-animation')">Relancer l'animation</button>
+</div>
+
+<p>
+Chaque fl&egrave;che repr&eacute;sente le vecteur d'un mot.
+</p>
+
+<p>
+Apr&egrave;s 2 000 &eacute;tapes, la structure s&eacute;mantique &eacute;merge. <span style="color:#6aad8a">Tapis</span> et <span style="color:#6aad8a">coussin</span> se regroupent. <span style="color:#777">Chat</span> et <span style="color:#777">chien</span> se regroupent.
+</p>
+
+<table class="st">
+  <tr><th>mot 1</th><th>mot 2</th><th>similarit&eacute; cosinus</th><th></th></tr>
+<!-- INJECT:sim_table -->
+  <tr><td>chat</td><td>chien</td><td class="sv">+0.632</td><td><span class="bar" style="width:51px;background:#286c44"></span></td></tr>
+  <tr><td>souris</td><td>lapin</td><td class="sv">+0.984</td><td><span class="bar" style="width:79px;background:#286c44"></span></td></tr>
+  <tr><td>tapis</td><td>coussin</td><td class="sv">+0.998</td><td><span class="bar" style="width:80px;background:#286c44"></span></td></tr>
+  <tr><td>poursuivi</td><td>fui</td><td class="sv">+0.961</td><td><span class="bar" style="width:77px;background:#286c44"></span></td></tr>
+  <tr><td>dormi</td><td>assis</td><td class="sv">+0.866</td><td><span class="bar" style="width:69px;background:#286c44"></span></td></tr>
+  <tr><td>chat</td><td>souris</td><td class="sv">+0.014</td><td><span class="bar" style="width:1px;background:#286c44"></span></td></tr>
+<!-- /INJECT:sim_table -->
+</table>
+
+<p>
+&Agrave; aucun moment l'ordinateur n'a acc&egrave;s au <em>sens</em> des mots : uniquement &agrave; la position de chacun d'entre eux.
+</p>
+
+<p>
+Ici, les vecteurs choisis n'avaient que deux dimensions : abscisse et ordonn&eacute;e. Le corpus d'entra&icirc;nement ne compte que 10 phrases. En pratique, les plongements lexicaux utilisent entre 50 et 300 dimensions et sont entra&icirc;n&eacute;s sur des corpus tr&egrave;s larges, ce qui permet de capturer des relations s&eacute;mantiques bien plus fines.
+</p>
+
+<p>
+Pour obtenir des embeddings plus riches, il faut donc augmenter &agrave; la fois la dimensionnalit&eacute; et la taille du corpus. Testons avec l'<em>Odyss&eacute;e</em> : on entra&icirc;ne Word2Vec en 50 dimensions sur son texte int&eacute;gral traduit en fran&ccedil;ais.
+</p>
+
+<details>
+<summary>Voir le corpus (extrait)</summary>
+<div class="corpus-text"><!-- INJECT:corpus_text -->
+L’Odyssée
+
+Homère
+
+
+
+
+
+A. Lemerre, Paris, 1893
+
+
+
+HOMÈRE
+
+
+
+ODYSSÉE
+
+Traduction nouvelle
+
+PAR
+
+LECONTE DE LISLE
+
+
+
+
+
+PARIS
+
+ALPHONSE LEMERRE, ÉDITEUR
+
+23-31, PASSAGE CHOISEUL, 27-31
+
+
+
+* * *
+
+
+
+M D CCC XCIII
+
+
+
+
+
+RHAPSODIE I
+
+
+
+
+
+D
+
+
+
+is-moi, Muse, cet homme subtil qui erra si longtemps, après qu’il eut renversé la citadelle sacrée de Troiè. Et il vit les cités de peuples nombreux, et il connut leur esprit ; et, dans son cœur, il endura beaucoup de maux, sur la mer, pour sa propre vie et le retour de ses compagnons. Mais il ne les sauva point, contre son désir ; et ils périrent par leur impiété, les insensés ! ayant mangé les bœufs de Hèlios Hypérionade. Et ce dernier leur ravit l’heure du retour. Dis-moi une partie de ces choses, Déesse, fille de Zeus.
+
+Tous ceux qui avaient évité la noire mort, échappés de la guerre et de la mer, étaient rentrés dans leurs demeures ; mais Odysseus restait seul, loin de son pays et de sa femme, et la vénérable Nymphe Kalypsô, la très-noble Déesse, le retenait dans ses grottes creuses, le désirant pour mari. Et quand le temps vint, après le déroulement des années, où les Dieux voulurent qu’il revît sa demeure en Ithakè, même alors il devait subir des combats au milieu des siens. Et tous les Dieux le prenaient en pitié, excepté Poseidaôn, qui était toujours irrité contre le divin Odysseus, jusqu’à ce qu’il fût rentré dans son pays.
+
+Et Poseidaôn était allé chez les Aithiopiens qui habitent au loin et sont partagés en deux peuples, dont l’un regarde du côté de Hypériôn, au couchant, et l’autre au levant. Et le Dieu y était allé pour une hécatombe de taureaux et d’agneaux. Et comme il se réjouissait, assis à ce repas, les autres Dieux étaient réunis dans la demeure royale de Zeus Olympien. Et le Père des hommes et des Dieux commença de leur parler, se rappelant dans son cœur l’irréprochable Aigisthos que l’illustre Orestès Agamemnonide avait tué. Se souvenant de cela, il dit ces paroles aux Immortels :
+
+– Ah ! combien les hommes accusent les Dieux ! Ils disent que leurs maux viennent de nous, et, seuls, ils aggravent leur destinée par leur démence. Maintenant, voici qu’Aigisthos, contre le destin, a épousé la femme de l’Atréide et a tué ce dernier, sachant quelle serait sa mort terrible ; car nous l’avions prévenu par Herméias, le vigilant tueur d’Argos, de ne point tuer Agamemnôn et de ne point désirer sa femme, de peur que l’Atréide Orestès se vengeât, ayant grandi et désirant revoir son pays. Herméias parla ainsi, mais son conseil salutaire n’a point persuadé l’esprit d’Aigisthos, et, maintenant, celui-ci a tout expié d’un coup.
+
+Et Athènè, la Déesse aux yeux clairs, lui répondit :
+
+– Ô notre Père, Kronide, le plus haut des Rois ! celui-ci du moins a été frappé d’une mort juste. Qu’il meure ainsi celui qui agira de même ! Mais mon cœur est déchiré au souvenir du brave Odysseus, le malheureux ! qui souffre depuis longtemps loin des siens, dans une île, au milieu de la mer, et où en est le centre. Et, dans cette île plantée d’arbres, habite une Déesse, la fille dangereuse d’Atlas, lui qui connaît les profondeurs de la mer, et qui porte les hautes colonnes dressées entre la terre et l’Ouranos. Et sa fille retient ce malheureux qui se lamente et qu’elle flatte toujours de molles et douces paroles, afin qu’il oublie Ithakè ; mais il désire revoir la fumée de son pays et souhaite de mourir. Et ton cœur n’est point touché, Olympien, par les sacrifices qu’Odysseus accomplissait pour toi auprès des nefs Argiennes, devant la grande Troiè. Zeus, pourquoi donc es-tu si irrité contre lui ?
+
+Et Zeus qui amasse les nuées, lui répondant, parla ainsi :
+
+– Mon enfant, quelle parole s’est échappée d’entre tes dents ? Comment pourrais-je oublier le divin Odysseus, qui, par l’intelligence, est au-dessus de tous les hommes, et qui offrait le plus de sacrifices aux Dieux qui vivent toujours et qui habitent le large Ouranos ? Mais Poseidaôn qui entoure la terre est constamment irrité à cause du Kyklôps qu’Odysseus a aveuglé, Polyphèmos tel qu’un Dieu, le plus fort des Kyklôpes. La Nymphe Thoôsa, fille de Phorkyn, maître de la mer sauvage, l’enfanta, s’étant unie à Poseidaôn dans ses grottes creuses. C’est pour cela que Poseidaôn qui secoue la terre, ne tuant point Odysseus, le contraint d’errer loin de son pays. Mais nous, qui sommes ici, assurons son retour ; et Poseidaôn oubliera sa colère, car il ne pourra rien, seul, contre tous les Dieux Immortels.
+
+Et la Déesse Athènè aux yeux clairs lui répondit :
+
+– Ô notre Père, Kronide, le plus haut des Rois ! s’il plaît aux Dieux heureux que le sage Odysseus retourne en sa demeure, envoyons le Messager Herméias, tueur d’Argos, dans l’île Ogygiè, afin qu’il avertisse la Nymphe à la belle chevelure que nous avons résolu le retour d’Odysseus à l’âme forte et patiente. Et moi j’irai à Ithakè, et j’exciterai son fils et lui inspirerai la force, ayant réuni l’agora des Akhaiens chevelus, de chasser tous les Prétendants qui égorgent ses brebis nombreuses et ses bœufs aux jambes torses et aux cornes recourbées. Et je l’enverrai à Spartè et dans la sablonneuse Pylos, afin qu’il s’informe du retour de son père bien-aimé, et qu’il soit très-honoré parmi les hommes.
+
+Ayant ainsi parlé, elle attacha à ses pieds de belles sandales ambroisiennes, dorées, qui la portaient sur la mer et sur l’immense terre comme le souffle du vent. Et elle prit une forte lance, armée d’un airain aigu, lourde, grande et solide, avec laquelle elle dompte la foule des hommes héroïques contre qui, fille d’un père puissant, elle est irritée. Et, s’étant élancée du faite de l’Olympos, elle descendit au milieu du peuple d’Ithakè, dans le vestibule d’Odysseus, au seuil de la cour, avec la lance d’airain en main, et semblable à un étranger, au chef des Taphiens, à Mentès.
+
+Et elle vit les Prétendants insolents qui jouaient aux jetons devant les portes, assis sur la peau des bœufs qu’ils avaient tués eux-mêmes. Et des hérauts et des serviteurs s’empressaient autour d’eux ; et les uns mêlaient l’eau et le vin dans les kratères ; et les autres lavaient les tables avec les éponges poreuses ; et, les ayant dressées, partageaient les viandes abondantes.
+
+Et, le premier de tous, le divin Tèlémakhos vit Athènè. Et il était assis parmi les Prétendants, le cœur triste, voyant en esprit son brave père revenir soudain, chasser les Prétendants hors de ses demeures, ressaisir sa puissance et régir ses biens. Or, songeant à cela, assis parmi eux, il vit Athènè : et il alla dans le vestibule, indigné qu’un étranger restât longtemps debout à la porte. Et il s’approcha, lui prit la main droite, reçut la lance d’airain et dit ces paroles ailées :
+
+– Salut, Étranger. Tu nous seras ami, et, après le repas, tu nous diras ce qu’il te faut.
+
+Ayant ainsi parlé, il le conduisit, et Pallas Athènè le suivit. Et lorsqu’ils furent entrés dans la haute demeure, il appuya la lance contre une longue colonne, dans un arsenal luisant où étaient déjà rangées beaucoup d’autres lances d’Odysseus à l’âme ferme et patiente. Et il fit asseoir Athènè, ayant mis un beau tapis bien travaillé sur le thrône, et, sous ses pieds, un escabeau. Pour lui-même il plaça auprès d’elle un siège sculpté, loin des Prétendants, afin que l’étranger ne souffrît point du repas tumultueux, au milieu de convives injurieux, et afin de l’interroger sur son père absent.
+
+Et une servante versa, pour les ablutions, de l’eau dans un bassin d’argent, d’une belle aiguière d’or ; et elle dressa auprès d’eux une table luisante. Puis, une intendante vénérable apporta du pain et couvrit la table de mets nombreux et réservés ; et un découpeur servit les plats de viandes diverses et leur offrit des coupes d’or ; et un héraut leur servait souvent du vin.
+
+Et les Prétendants insolents entrèrent. Ils s’assirent en ordre sur des sièges et sur des thrônes ; et des hérauts versaient de l’eau sur leurs mains ; et les servantes entassaient le pain dans les corbeilles, et les jeunes hommes emplissaient de vin les kratère
+
+[…]<!-- /INJECT:corpus_text --></div>
+</details>
+
+<p>
+Puisqu'il est difficile de repr&eacute;senter des vecteurs de dimension 50, on utilise un algorithme<span class="sidenote-number">6</span> pour les repr&eacute;senter en 2D, d'une mani&egrave;re qui pr&eacute;serve autant que possible les distances entre les vecteurs.
+</p>
+<span class="sidenote" data-n="6">Analyse en composantes principales.</span>
+
+<div class="sv-wrap corpus-train-wrap" id="corpus-animation-wrap">
+  <img id="corpus-animation" src="outputs/corpus_train_animation.svg" alt="Animation entra&icirc;nement corpus">
+  <button class="replay-btn" onclick="replayAnimation('corpus-animation')">Relancer l'animation</button>
+</div>
+
+<h2>Quelques exemples de similarit&eacute; cosinus entre les mots</h2>
+
+<div class="sim-list"><!-- INJECT:similarities -->
+<div class="sim-item"><h4>odysseus</h4><ol><li>divin <span class="score">0.746</span></li><li>lui <span class="score">0.739</span></li><li>subtil <span class="score">0.717</span></li><li>patient <span class="score">0.703</span></li><li>le <span class="score">0.683</span></li></ol></div>
+<div class="sim-item"><h4>mer</h4><ol><li>écumeuse <span class="score">0.683</span></li><li>nef <span class="score">0.672</span></li><li>bord <span class="score">0.625</span></li><li>noire <span class="score">0.623</span></li><li>flots <span class="score">0.614</span></li></ol></div>
+<div class="sim-item"><h4>dieux</h4><ol><li>immortels <span class="score">0.734</span></li><li>plût <span class="score">0.650</span></li><li>châtié <span class="score">0.642</span></li><li>savent <span class="score">0.625</span></li><li>heureux <span class="score">0.618</span></li></ol></div>
+<!-- /INJECT:similarities --></div>
+
+<p>
+L'une des propri&eacute;t&eacute;s int&eacute;ressantes des plongements lexicaux est que l'on peut faire de l'arithm&eacute;tique avec les mots, du moins avec leur repr&eacute;sentation vectorielle. Si le sens des mots est bien repr&eacute;sent&eacute; comme des directions dans l'espace, alors :
+</p>
+
+<div class="mb">
+  $$\mathbf{v}_{\text{roi}} - \mathbf{v}_{\text{homme}} + \mathbf{v}_{\text{femme}} \approx \mathbf{v}_{\text{reine}}$$
+</div>
+
+<p>
+Sur notre petit corpus constitu&eacute; seulement de l'<em>Odyss&eacute;e</em>, les analogies sont plus bruit&eacute;es, mais la structure est visible :
+</p>
+
+<div><!-- INJECT:analogies -->
+<div class="analogy"><span class="eq">mer</span> est à <span class="eq">terre</span> ce que <span class="eq">divin</span> est à … <strong>odysseus</strong> <span class="score">(0.710)</span><div class="res">odysseus (0.710) · amphimédôn (0.610) · patient (0.575) · porcher (0.555) · eurykléia (0.549) · </div></div>
+<div class="analogy"><span class="eq">père</span> est à <span class="eq">fils</span> ce que <span class="eq">odysseus</span> est à … <strong>divin</strong> <span class="score">(0.701)</span><div class="res">divin (0.701) · façon (0.568) · inutiles (0.556) · subtil (0.552) · patient (0.548) · </div></div>
+<div class="analogy"><span class="eq">mer</span> est à <span class="eq">terre</span> ce que <span class="eq">chère</span> est à … <strong>patrie</strong> <span class="score">(0.694)</span><div class="res">patrie (0.694) · natale (0.573) · lointaine (0.543) · doit (0.541) · vaine (0.532) · </div></div>
+<div class="analogy"><span class="eq">homme</span> est à <span class="eq">femme</span> ce que <span class="eq">jeune</span> est à … <strong>belle</strong> <span class="score">(0.693)</span><div class="res">belle (0.693) · vierge (0.584) · membres (0.548) · tyndaros (0.543) · fille (0.527) · </div></div>
+<div class="analogy"><span class="eq">fille</span> est à <span class="eq">fils</span> ce que <span class="eq">père</span> est à … <strong>cher</strong> <span class="score">(0.683)</span><div class="res">cher (0.683) · autolykos (0.555) · illustre (0.548) · antiphos (0.519) · brave (0.515) · </div></div>
+<!-- /INJECT:analogies --></div>
+
+<div class="sv-wrap pca-wrap">
+  <img src="outputs/corpus_analogy_scatter.svg" alt="Projection PCA des analogies">
+</div>
+
+<p>
+Ces plongements lexicaux sont ensuite la base du traitement automatique du langage, comme les LLMs.
+</p>
+
+</article>
+
+<script>
+function replayAnimation(imgId) {
+  var img = document.getElementById(imgId);
+  if (img) {
+    var src = img.getAttribute('src');
+    img.setAttribute('src', '');
+    setTimeout(function() { img.setAttribute('src', src); }, 50);
+  }
+}
+
+// IntersectionObserver: start animations only when they become visible
+document.addEventListener('DOMContentLoaded', function() {
+  var animationIds = ['toy-animation', 'corpus-animation'];
+  animationIds.forEach(function(id) {
+    var img = document.getElementById(id);
+    if (!img) return;
+    var originalSrc = img.getAttribute('src');
+    img.removeAttribute('src');
+    var observer = new IntersectionObserver(function(entries) {
+      entries.forEach(function(entry) {
+        if (entry.isIntersecting) {
+          img.setAttribute('src', originalSrc);
+          observer.unobserve(img);
+        }
+      });
+    }, { threshold: 0.3 });
+    observer.observe(img);
+  });
+});
+</script>
+
+</body>
+</html>

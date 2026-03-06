@@ -1,0 +1,67 @@
+<svg viewBox="0 0 600 500" xmlns="http://www.w3.org/2000/svg">
+<rect x="0" y="0" width="600" height="500" fill="#fcfcfc" rx="4"/>
+<line x1="15" y1="250.0" x2="585" y2="250.0" stroke="#ccc" stroke-width="0.4"/>
+<line x1="300.0" y1="15" x2="300.0" y2="485" stroke="#ccc" stroke-width="0.4"/>
+<text x="580" y="266.0" fill="#ccc" font-size="10" font-family="serif" text-anchor="end">PC1 (5%)</text>
+<text x="308.0" y="22" fill="#ccc" font-size="10" font-family="serif">PC2 (3%)</text>
+<circle cx="287.6" cy="169.5" r="3.5" fill="#286c44" opacity="0.8"/>
+<circle cx="343.7" cy="289.0" r="3.5" fill="#286c44" opacity="0.8"/>
+<circle cx="326.5" cy="183.0" r="3.5" fill="#286c44" opacity="0.8"/>
+<circle cx="372.5" cy="217.8" r="3.5" fill="#286c44" opacity="0.8"/>
+<circle cx="195.2" cy="304.4" r="3.5" fill="#286c44" opacity="0.8"/>
+<circle cx="303.0" cy="139.0" r="1.8" fill="#ccc" opacity="0.4"/>
+<circle cx="292.1" cy="292.2" r="1.8" fill="#ccc" opacity="0.4"/>
+<circle cx="209.6" cy="233.7" r="1.8" fill="#ccc" opacity="0.4"/>
+<circle cx="220.5" cy="265.2" r="1.8" fill="#ccc" opacity="0.4"/>
+<circle cx="268.6" cy="224.1" r="1.8" fill="#ccc" opacity="0.4"/>
+<circle cx="247.3" cy="348.0" r="1.8" fill="#ccc" opacity="0.4"/>
+<circle cx="329.7" cy="92.1" r="1.8" fill="#ccc" opacity="0.4"/>
+<circle cx="281.0" cy="260.8" r="1.8" fill="#ccc" opacity="0.4"/>
+<circle cx="248.1" cy="208.4" r="1.8" fill="#ccc" opacity="0.4"/>
+<circle cx="291.7" cy="251.3" r="1.8" fill="#ccc" opacity="0.4"/>
+<circle cx="256.4" cy="254.7" r="1.8" fill="#ccc" opacity="0.4"/>
+<circle cx="247.6" cy="152.1" r="1.8" fill="#ccc" opacity="0.4"/>
+<circle cx="277.2" cy="259.8" r="1.8" fill="#ccc" opacity="0.4"/>
+<circle cx="191.8" cy="175.7" r="1.8" fill="#ccc" opacity="0.4"/>
+<circle cx="213.5" cy="240.1" r="1.8" fill="#ccc" opacity="0.4"/>
+<circle cx="273.8" cy="283.6" r="1.8" fill="#ccc" opacity="0.4"/>
+<circle cx="176.5" cy="112.3" r="1.8" fill="#ccc" opacity="0.4"/>
+<circle cx="303.0" cy="206.9" r="1.8" fill="#ccc" opacity="0.4"/>
+<circle cx="271.0" cy="296.4" r="1.8" fill="#ccc" opacity="0.4"/>
+<circle cx="378.2" cy="335.1" r="1.8" fill="#ccc" opacity="0.4"/>
+<circle cx="226.8" cy="178.4" r="1.8" fill="#ccc" opacity="0.4"/>
+<circle cx="206.9" cy="179.7" r="1.8" fill="#ccc" opacity="0.4"/>
+<circle cx="384.0" cy="215.7" r="1.8" fill="#ccc" opacity="0.4"/>
+<circle cx="303.2" cy="178.8" r="1.8" fill="#ccc" opacity="0.4"/>
+<circle cx="343.2" cy="181.2" r="1.8" fill="#ccc" opacity="0.4"/>
+<circle cx="212.5" cy="213.0" r="1.8" fill="#ccc" opacity="0.4"/>
+<circle cx="272.0" cy="239.1" r="1.8" fill="#ccc" opacity="0.4"/>
+<circle cx="273.4" cy="336.7" r="1.8" fill="#ccc" opacity="0.4"/>
+<circle cx="258.3" cy="215.1" r="1.8" fill="#ccc" opacity="0.4"/>
+<circle cx="196.0" cy="225.4" r="1.8" fill="#ccc" opacity="0.4"/>
+<circle cx="250.2" cy="206.3" r="1.8" fill="#ccc" opacity="0.4"/>
+<circle cx="235.4" cy="251.2" r="1.8" fill="#ccc" opacity="0.4"/>
+<circle cx="333.7" cy="248.9" r="1.8" fill="#ccc" opacity="0.4"/>
+<circle cx="295.8" cy="161.2" r="1.8" fill="#ccc" opacity="0.4"/>
+<circle cx="378.3" cy="278.4" r="1.8" fill="#ccc" opacity="0.4"/>
+<circle cx="244.5" cy="142.9" r="1.8" fill="#ccc" opacity="0.4"/>
+<circle cx="370.8" cy="235.2" r="1.8" fill="#ccc" opacity="0.4"/>
+<circle cx="204.5" cy="152.1" r="1.8" fill="#ccc" opacity="0.4"/>
+<circle cx="322.3" cy="226.2" r="1.8" fill="#ccc" opacity="0.4"/>
+<circle cx="186.1" cy="188.5" r="1.8" fill="#ccc" opacity="0.4"/>
+<circle cx="178.2" cy="223.5" r="1.8" fill="#ccc" opacity="0.4"/>
+<circle cx="303.4" cy="199.0" r="1.8" fill="#ccc" opacity="0.4"/>
+<circle cx="291.0" cy="294.8" r="1.8" fill="#ccc" opacity="0.4"/>
+<circle cx="218.8" cy="293.1" r="1.8" fill="#ccc" opacity="0.4"/>
+<circle cx="235.7" cy="266.6" r="1.8" fill="#ccc" opacity="0.4"/>
+<circle cx="330.0" cy="307.0" r="1.8" fill="#ccc" opacity="0.4"/>
+<circle cx="340.4" cy="236.0" r="1.8" fill="#ccc" opacity="0.4"/>
+<circle cx="267.4" cy="146.4" r="1.8" fill="#ccc" opacity="0.4"/>
+<circle cx="352.8" cy="430.0" r="1.8" fill="#ccc" opacity="0.4"/>
+<circle cx="355.5" cy="245.0" r="1.8" fill="#ccc" opacity="0.4"/>
+<text x="280.6" y="172.5" fill="#286c44" font-size="11" font-weight="600" font-family="serif" text-anchor="end">odysseus</text>
+<text x="350.7" y="292.0" fill="#286c44" font-size="11" font-weight="600" font-family="serif" text-anchor="start">mer</text>
+<text x="333.5" y="186.0" fill="#286c44" font-size="11" font-weight="600" font-family="serif" text-anchor="start">divin</text>
+<text x="379.5" y="220.8" fill="#286c44" font-size="11" font-weight="600" font-family="serif" text-anchor="start">écumeuse</text>
+<text x="188.2" y="307.4" fill="#286c44" font-size="11" font-weight="600" font-family="serif" text-anchor="end">dieux</text>
+</svg>

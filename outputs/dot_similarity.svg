@@ -1,0 +1,27 @@
+<svg viewBox="0 0 588 260" xmlns="http://www.w3.org/2000/svg">
+<defs>
+<marker id="tri-black" markerWidth="8" markerHeight="8" refX="8" refY="4" orient="auto"><path d="M0,0 L8,4 L0,8 Z" fill="#111"/></marker>
+<marker id="tri-green" markerWidth="8" markerHeight="8" refX="8" refY="4" orient="auto"><path d="M0,0 L8,4 L0,8 Z" fill="#286c44"/></marker>
+</defs>
+<circle cx="90" cy="120" r="70" fill="none" stroke="#ccc" stroke-width="0.8" stroke-dasharray="3,3"/>
+<circle cx="294" cy="120" r="70" fill="none" stroke="#ccc" stroke-width="0.8" stroke-dasharray="3,3"/>
+<circle cx="498" cy="120" r="70" fill="none" stroke="#ccc" stroke-width="0.8" stroke-dasharray="3,3"/>
+<line x1="90" y1="120" x2="152.8" y2="103.2" stroke="#111" stroke-width="2" marker-end="url(#tri-black)"/>
+<text x="162.8" y="101.2" fill="#111" font-size="12" font-weight="600" font-family="serif">a</text>
+<line x1="90" y1="120" x2="127.3" y2="66.8" stroke="#286c44" stroke-width="2" marker-end="url(#tri-green)"/>
+<text x="137.3" y="64.8" fill="#286c44" font-size="12" font-weight="600" font-family="serif">b</text>
+<text x="90" y="240" text-anchor="middle" fill="#777" font-size="12" font-family="serif">similaire</text>
+<text x="90" y="32" text-anchor="middle" fill="#286c44" font-size="14" font-weight="700" font-family="serif">+0.91</text>
+<line x1="294" y1="120" x2="358.0" y2="108.7" stroke="#111" stroke-width="2" marker-end="url(#tri-black)"/>
+<text x="368.0" y="106.7" fill="#111" font-size="12" font-weight="600" font-family="serif">a</text>
+<line x1="294" y1="120" x2="282.7" y2="56.0" stroke="#286c44" stroke-width="2" marker-end="url(#tri-green)"/>
+<text x="292.7" y="54.0" fill="#286c44" font-size="12" font-weight="600" font-family="serif">b</text>
+<text x="294" y="240" text-anchor="middle" fill="#777" font-size="12" font-family="serif">orthogonal</text>
+<text x="294" y="32" text-anchor="middle" fill="#ccc" font-size="14" font-weight="700" font-family="serif">0.00</text>
+<line x1="498" y1="120" x2="554.3" y2="87.5" stroke="#111" stroke-width="2" marker-end="url(#tri-black)"/>
+<text x="564.3" y="85.5" fill="#111" font-size="12" font-weight="600" font-family="serif">a</text>
+<line x1="498" y1="120" x2="439.1" y2="147.5" stroke="#286c44" stroke-width="2" marker-end="url(#tri-green)"/>
+<text x="427.1" y="145.5" fill="#286c44" font-size="12" font-weight="600" font-family="serif" text-anchor="end">b</text>
+<text x="498" y="240" text-anchor="middle" fill="#777" font-size="12" font-family="serif">opposé</text>
+<text x="498" y="32" text-anchor="middle" fill="#6aad8a" font-size="14" font-weight="700" font-family="serif">−0.87</text>
+</svg>
