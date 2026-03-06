@@ -28,16 +28,7 @@ jobs:
         run: |
           mkdir -p _site/outputs
           cp index.html _site/
-          cp outputs/cluster_both.svg _site/outputs/
-          cp outputs/cluster_chat.svg _site/outputs/
-          cp outputs/cluster_chien.svg _site/outputs/
-          cp outputs/cooccurrence_matrix.svg _site/outputs/
-          cp outputs/corpus_analogy_scatter.svg _site/outputs/
-          cp outputs/corpus_pca_scatter.svg _site/outputs/
-          cp outputs/corpus_train_animation.svg _site/outputs/
-          cp outputs/dot_similarity.svg _site/outputs/
-          cp outputs/embedding_train_animation.svg _site/outputs/
-          cp outputs/vector_example.svg _site/outputs/
+          cp outputs/*.svg _site/outputs/
 
       - uses: actions/configure-pages@v5
 
